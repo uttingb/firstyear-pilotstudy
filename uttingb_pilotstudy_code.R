@@ -1,9 +1,11 @@
 #Code for first year pilot study
 
+library(BEST)
 library(dplyr)
 library(ggplot2)
 library(HDInterval)
 library(lme4)
+library(lmerTest)
 library(MCMCpack)
 library(multcomp)
 library(readxl)
@@ -60,17 +62,16 @@ biPolar.microFact <- subset(biPolar, dataclass == "shatter" | dataclass == "spli
 #Dataclass
 #######################################
 
-#Frequentist
+#Chi-square with p-value simulation
 xtab <- table(mydata$inventory, mydata$dataclass)
 chisq.test(xtab,simulate.p.value=TRUE,B=10000)
 
 #Bayesian
+#Here, I use the Dirichlet distribution as a conjugate prior to derive 95% credibility intervals for frequencies of each dataclass
 table(mydata$inventory, mydata$dataclass)
 
-#Here, I use the Dirichlet distribution as a conjugate prior to derive 95% credibility intervals for frequencies of each dataclass
-
-freeHand.dataclass <- c(1, 23, 2, 2, 2, 0, 10, 5)
 biPolar.dataclass <- c(12, 21, 0, 1, 5, 7, 18, 4)
+freeHand.dataclass <- c(1, 23, 2, 2, 2, 0, 10, 5)
 
 #angular chunk, complete flake, core, core frag, flake frag, piece esquille, shatter, splinter
 
@@ -143,7 +144,7 @@ ggplot(mydata, aes(x = dataclass, group = inventory)) +
 #Platform type 
 #######################################
 
-#Frequentist
+#Chi-square with p-value simulation
 xtab <- table(mydata$inventory, mydata$platformType)
 chisq.test(xtab,simulate.p.value=TRUE,B=10000)
 
@@ -213,9 +214,11 @@ ggplot(platforms, aes(x = platformType, group = inventory)) +
 #Termination type
 #######################################
 
+#Chi-square with p-value simulation
 xtab <- table(mydata$inventory, mydata$termination)
 chisq.test(xtab,simulate.p.value=TRUE,B=10000)
 
+#Bayesian
 table(mydata$inventory, mydata$termination)
 
 biPolar.termination <- c(3, 9, 2, 4, 0, 2, 10)
@@ -291,7 +294,13 @@ ggplot(terminations, aes(x = termination, group = inventory)) +
 #Maximum length
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(freeHand$maxLength)
+sd(freeHand$maxLength)
+mean(biPolar$maxLength)
+sd(biPolar$maxLength)
+
+#Mann-Whitney test
 wilcox.test(freeHand$maxLength, biPolar$maxLength)
 
 #Bayesian
@@ -307,7 +316,13 @@ plot(BEST_out_maxLength, ROPE = c(-0.1,0.1))
 #Maximum width
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(freeHand$maxWidth)
+sd(freeHand$maxWidth)
+mean(biPolar$maxWidth)
+sd(biPolar$maxWidth)
+
+#Mann-Whitney test
 wilcox.test(freeHand$maxWidth, biPolar$maxWidth)
 
 #Bayesian
@@ -323,7 +338,13 @@ plot(BEST_out_maxWidth, ROPE = c(-0.1,0.1))
 #Maximum thickness
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(freeHand$maxThickness)
+sd(freeHand$maxThickness)
+mean(biPolar$maxThickness)
+sd(biPolar$maxThickness)
+
+#Mann-Whitney test
 wilcox.test(freeHand$maxThickness, biPolar$maxThickness)
 
 #Bayesian
@@ -340,7 +361,13 @@ plot(BEST_out_maxThickness, ROPE = c(-0.1,0.1))
 #Surface Area
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(freeHand$SG1Area)
+sd(freeHand$SG1Area)
+mean(biPolar$SG1Area)
+sd(biPolar$SG1Area)
+
+#Mann-Whitney test
 wilcox.test(freeHand$SG1Area, biPolar$SG1Area)
 
 #Bayesian
@@ -357,7 +384,13 @@ plot(BEST_out_surfaceArea, ROPE = c(-0.1,0.1))
 #Perimeter
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(freeHand$SG1Perimeter)
+sd(freeHand$SG1Perimeter)
+mean(biPolar$SG1Perimeter)
+sd(biPolar$SG1Perimeter)
+
+#Mann-Whitney test
 wilcox.test(freeHand$SG1Perimeter, biPolar$SG1Perimeter)
 
 #Bayesian
@@ -374,7 +407,13 @@ plot(BEST_out_perimeter, ROPE = c(-0.1,0.1))
 #Mass
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(freeHand$mass)
+sd(freeHand$mass)
+mean(biPolar$mass)
+sd(biPolar$mass)
+
+#Mann-Whitney test
 wilcox.test(freeHand$mass, biPolar$mass)
 
 #Bayesian
@@ -391,7 +430,13 @@ plot(BEST_out_mass, ROPE = c(-0.1,0.1))
 #Technological length
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$techLength))
+sd(na.omit(freeHand$techLength))
+mean(na.omit(biPolar$techLength))
+sd(na.omit(biPolar$techLength))
+
+#Mann-Whitney test
 wilcox.test(freeHand$techLength, biPolar$techLength)
 
 #Bayesian
@@ -408,7 +453,13 @@ plot(BEST_out_techLength, ROPE = c(-0.1,0.1))
 #Proximal width
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$proxWidth))
+sd(na.omit(freeHand$proxWidth))
+mean(na.omit(biPolar$proxWidth))
+sd(na.omit(biPolar$proxWidth))
+
+#Mann-Whitney test
 wilcox.test(freeHand$proxWidth, biPolar$proxWidth)
 
 #Bayesian
@@ -425,7 +476,13 @@ plot(BEST_out_proxWidth, ROPE = c(-0.1,0.1))
 #Mesial width
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$mesWidth))
+sd(na.omit(freeHand$mesWidth))
+mean(na.omit(biPolar$mesWidth))
+sd(na.omit(biPolar$mesWidth))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$mesWidth), na.omit(biPolar$mesWidth))
 
 #Bayesian
@@ -442,7 +499,13 @@ plot(BEST_out_mesWidth, ROPE = c(-0.1,0.1))
 #Distal width
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$distWidth))
+sd(na.omit(freeHand$distWidth))
+mean(na.omit(biPolar$distWidth))
+sd(na.omit(biPolar$distWidth))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$distWidth), na.omit(biPolar$distWidth))
 
 #Bayesian
@@ -459,7 +522,13 @@ plot(BEST_out_distWidth, ROPE = c(-0.1,0.1))
 #Proximal thickness
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$proxThickness))
+sd(na.omit(freeHand$proxThickness))
+mean(na.omit(biPolar$proxThickness))
+sd(na.omit(biPolar$proxThickness))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$proxThickness), na.omit(biPolar$proxThickness))
 
 #Bayesian
@@ -476,7 +545,13 @@ plot(BEST_out_proxThick, ROPE = c(-0.1,0.1))
 #Mesial thickness
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$mesThickness))
+sd(na.omit(freeHand$mesThickness))
+mean(na.omit(biPolar$mesThickness))
+sd(na.omit(biPolar$mesThickness))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$mesThickness), na.omit(biPolar$mesThickness))
 
 #Bayesian
@@ -493,7 +568,13 @@ plot(BEST_out_mesThick, ROPE = c(-0.1,0.1))
 #Distal thickness
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$distThickness))
+sd(na.omit(freeHand$distThickness))
+mean(na.omit(biPolar$distThickness))
+sd(na.omit(biPolar$distThickness))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$distThickness), na.omit(biPolar$distThickness))
 
 #Bayesian
@@ -510,7 +591,13 @@ plot(BEST_out_distThick, ROPE = c(-0.1,0.1))
 #Platform width
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$platformWidth))
+sd(na.omit(freeHand$platformWidth))
+mean(na.omit(biPolar$platformWidth))
+sd(na.omit(biPolar$platformWidth))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$platformWidth), na.omit(biPolar$platformWidth))
 
 #Bayesian
@@ -527,7 +614,13 @@ plot(BEST_out_platWidth, ROPE = c(-0.1,0.1))
 #Platform thickness
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$platformThickness))
+sd(na.omit(freeHand$platformThickness))
+mean(na.omit(biPolar$platformThickness))
+sd(na.omit(biPolar$platformThickness))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$platformThickness), na.omit(biPolar$platformThickness))
 
 #Bayesian
@@ -544,7 +637,13 @@ plot(BEST_out_platThick, ROPE = c(-0.1,0.1))
 #Interior Platform Angle (IPA)
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$interiorPlatformAngle))
+sd(na.omit(freeHand$interiorPlatformAngle))
+mean(na.omit(biPolar$interiorPlatformAngle))
+sd(na.omit(biPolar$interiorPlatformAngle))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$interiorPlatformAngle), na.omit(biPolar$interiorPlatformAngle))
 
 #Bayesian
@@ -561,7 +660,13 @@ plot(BEST_out_IPA, ROPE = c(-0.1,0.1))
 #Exterior Platform Angle (EPA)
 #######################################
 
-#Frequentist
+#Mean and standard deviations
+mean(na.omit(freeHand$exteriorPlatformAngle))
+sd(na.omit(freeHand$exteriorPlatformAngle))
+mean(na.omit(biPolar$exteriorPlatformAngle))
+sd(na.omit(biPolar$exteriorPlatformAngle))
+
+#Mann-Whitney test
 wilcox.test(na.omit(freeHand$exteriorPlatformAngle), na.omit(biPolar$exteriorPlatformAngle))
 
 #Bayesian
@@ -588,7 +693,7 @@ ggplot(mydata, aes(x=exteriorPlatformAngle, fill=inventory)) + geom_density(alph
 #Maximum length to maximum width
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test((freeHand$maxLength/freeHand$maxWidth), (biPolar$maxLength/biPolar$maxWidth))
 
 #Bayesian
@@ -605,7 +710,7 @@ plot(BEST_out_mLmW, ROPE = c(-0.1,0.1))
 #EPA to maximum length
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test((na.omit(freeHand$exteriorPlatformAngle/freeHand$maxLength)), na.omit((biPolar$exteriorPlatformAngle/biPolar$maxLength)))
 
 #Bayesian
@@ -632,7 +737,7 @@ ggplot(mydata, aes(x = exteriorPlatformAngle, y = maxLength, color = inventory))
 #EPA to technological length
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test((na.omit(freeHand$exteriorPlatformAngle/freeHand$techLength)), na.omit((biPolar$exteriorPlatformAngle/biPolar$techLength)))
 
 #Bayesian
@@ -663,7 +768,7 @@ ggplot(mydata, aes(x = exteriorPlatformAngle, y = techLength, color = inventory)
 #Maximum length
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test(freeHand.microFact$maxLength, biPolar.microFact$maxLength)
 
 #Bayesian
@@ -676,7 +781,7 @@ plot(BEST_out_micro.length, "effect")
 #Maximum width
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test(freeHand.microFact$maxWidth, biPolar.microFact$maxWidth)
 
 #Bayesian
@@ -689,7 +794,7 @@ plot(BEST_out_micro.width, "effect")
 #Maximum thickness
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test(freeHand.microFact$maxThickness, biPolar.microFact$maxThickness)
 
 #Bayesian
@@ -702,7 +807,7 @@ plot(BEST_out_micro.thick, "effect")
 #Mass
 #######################################
 
-#Frequentist
+#Mann-Whitney test
 wilcox.test(freeHand.microFact$mass, biPolar.microFact$mass)
 
 #Bayesian
@@ -756,7 +861,7 @@ TestMeasures_Perimeter
 #Melt data
 melted_data_length <- melt(TestMeasures_Length, id.vars="artifactID")
 
-length_model <- lmer(value ~ variable + (1|artifactID), data = melted_data_length)
+length_model <- lmerTest::lmer(value ~ variable + (1|artifactID), data = melted_data_length)
 anova(length_model)
 
 #post-hoc analysis
@@ -829,7 +934,7 @@ ggplot(melted_data_length, aes(x = variable, y = value, fill = variable), show.l
 #Melt data
 melted_data_width <- melt(TestMeasures_Width, id.vars="artifactID")
 
-width_model <- lmer(value ~ variable + (1|artifactID), data = melted_data_width)
+width_model <- lmerTest::lmer(value ~ variable + (1|artifactID), data = melted_data_width)
 anova(width_model)
 
 #post-hoc analysis
