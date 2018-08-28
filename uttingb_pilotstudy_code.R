@@ -1,14 +1,19 @@
 #Code for first year pilot study
 
-library(BEST)
-library(dplyr)
-library(ggplot2)
-library(HDInterval)
-library(lmerTest)
-library(MCMCpack)
-library(multcomp)
-library(readxl)
-library(reshape2)
+#Author:
+  #Name: Benjamin J. Utting
+  #email: bju23@cam.ac.uk
+
+#The following packages are used:
+require(BEST)
+require(dplyr)
+require(ggplot2)
+require(HDInterval)
+require(lmerTest)
+require(MCMCpack)
+require(multcomp)
+require(readxl)
+require(reshape2)
 
 mydata <- read_excel("uttingb_pilotstudydata.xlsx")
 View(mydata)
