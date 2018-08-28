@@ -4,7 +4,6 @@ library(BEST)
 library(dplyr)
 library(ggplot2)
 library(HDInterval)
-library(lme4)
 library(lmerTest)
 library(MCMCpack)
 library(multcomp)
@@ -768,6 +767,12 @@ ggplot(mydata, aes(x = exteriorPlatformAngle, y = techLength, color = inventory)
 #Maximum length
 #######################################
 
+#Mean and standard deviations
+mean(freeHand.microFact$maxLength)
+sd(freeHand.microFact$maxLength)
+mean(biPolar.microFact$maxLength)
+sd(biPolar.microFact$maxLength)
+
 #Mann-Whitney test
 wilcox.test(freeHand.microFact$maxLength, biPolar.microFact$maxLength)
 
@@ -780,6 +785,12 @@ plot(BEST_out_micro.length, "effect")
 #######################################
 #Maximum width
 #######################################
+
+#Mean and standard deviations
+mean(freeHand.microFact$maxWidth)
+sd(freeHand.microFact$maxWidth)
+mean(biPolar.microFact$maxWidth)
+sd(biPolar.microFact$maxWidth)
 
 #Mann-Whitney test
 wilcox.test(freeHand.microFact$maxWidth, biPolar.microFact$maxWidth)
@@ -794,6 +805,12 @@ plot(BEST_out_micro.width, "effect")
 #Maximum thickness
 #######################################
 
+#Mean and standard deviations
+mean(freeHand.microFact$maxThickness)
+sd(freeHand.microFact$maxThickness)
+mean(biPolar.microFact$maxThickness)
+sd(biPolar.microFact$maxThickness)
+
 #Mann-Whitney test
 wilcox.test(freeHand.microFact$maxThickness, biPolar.microFact$maxThickness)
 
@@ -806,6 +823,12 @@ plot(BEST_out_micro.thick, "effect")
 #######################################
 #Mass
 #######################################
+
+#Mean and standard deviations
+mean(freeHand.microFact$mass)
+sd(freeHand.microFact$mass)
+mean(biPolar.microFact$mass)
+sd(biPolar.microFact$mass)
 
 #Mann-Whitney test
 wilcox.test(freeHand.microFact$mass, biPolar.microFact$mass)
